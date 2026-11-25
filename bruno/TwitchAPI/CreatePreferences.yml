@@ -1,0 +1,23 @@
+info:
+  name: CreatePreferences
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/users/:id/preferences
+  params:
+    - name: id
+      value: "6"
+      type: path
+  body:
+    type: json
+    data: '{"type":"streamer","name":"KNEKRO"}'
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
