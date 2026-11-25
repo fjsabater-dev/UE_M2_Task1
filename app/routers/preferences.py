@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from app.configuration.connections import get_default_database
 from app.schemas.preference import PreferenceCreate
+from app.service.twitch_service import get_game, get_streamer
 
 router = APIRouter(tags=["Preferences"]) # no prefix starts in /users/{user_id}
 
@@ -14,13 +15,20 @@ async def create_preference(user_id: int, preference: PreferenceCreate):
         cursor.execute("SELECT id FROM users WHERE id = %s", (user_id,)) # Check if the user exists
         if cursor.fetchone() is None: # fetchone() returns None if no record is found
             raise HTTPException(status_code=404, detail="User not found")
+           
+        if preference.type == "streamer":  # Check that the streamer/game really exists on Twitch before saving it
+            twitch_data = get_streamer(preference.name)
+            name = twitch_data["login"]
+        else:
+            twitch_data = get_game(preference.name)
+            name = twitch_data["name"]
 
         cursor.execute(
             "INSERT INTO preferences (user_id, type, name) VALUES (%s, %s, %s)", # Placeholders for the values to be inserted
-            (user_id, preference.type, preference.name)
+            (user_id, preference.type, name)
         )
         connection.commit() # Save change permanently to the database
-        return {"id": cursor.lastrowid, "user_id": user_id, "type": preference.type, "name": preference.name}
+        return {"id": cursor.lastrowid, "user_id": user_id, "type": preference.type, "name": name}
     finally:
         cursor.close() # Close the cursor to free up resources
         connection.close() # Close the connection to the database
