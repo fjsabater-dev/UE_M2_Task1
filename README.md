@@ -3,8 +3,6 @@
 REST API to manage users and their Twitch preferences, built with FastAPI and MySQL.
 Favorite streamers and games will be enriched with data from the Twitch API.
 
-> Work in progress: this README grows with every feature branch.
-
 ## Tech stack
 
 - Python and FastAPI
@@ -105,4 +103,13 @@ bruno/                   # Bruno collection with the API requests
 
 ## Documentation
 
-Not yet
+The project documentation is in [`TwitchAPI_Documentation.md`](TwitchAPI_Documentation.md) (written in Spanish), at the root of the repository. It explains:
+
+- the technologies used and the Git workflow,
+- the design decisions and code of each development branch,
+- the tests performed and their results,
+- conclusions and observations.
+
+The screenshots used in the document are stored in [`docs/img/`](docs/img/).
+
+This document also gives access to the project Repository in Github.
