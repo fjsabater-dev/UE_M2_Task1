@@ -84,3 +84,23 @@ async def update_user(user_id: int, user: UserUpdate):
     finally:
         cursor.close() # Close the cursor to free up resources
         connection.close() # Close the connection to the database
+
+@router.delete("/{user_id}")
+async def delete_user(user_id: int):
+    db = get_default_database()
+    connection = await db.get_db_connection() # "await" because the method is async
+    cursor = connection.cursor(buffered=True) # buffered=True to allow multiple queries on the same connection to avoid "Unread result found" error
+    try:
+        cursor.execute("SELECT id FROM users WHERE id = %s", (user_id,)) # Check if the user exists in the database
+        if cursor.fetchone() is None: # fetchone() returns None if no record is found
+            raise HTTPException(status_code=404, detail="User not found")
+
+        cursor.execute("DELETE FROM users WHERE id = %s", (user_id,)) # Delete the user from the database
+        connection.commit() # Save change permanently to the database
+
+        return JSONResponse(
+            content={"id": user_id, "message": "User deleted successfully"}, status_code=200
+        ) # Only return the user ID and a success message, not the updated user info that can be empty or null if the user didn't provide any fields to update
+    finally:
+        cursor.close() # Close the cursor to free up resources
+        connection.close() # Close the connection to the database
