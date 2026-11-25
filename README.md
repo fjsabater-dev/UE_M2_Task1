@@ -54,6 +54,15 @@ fastapi dev app/main.py
 
 The API runs at `http://127.0.0.1:8000`. Interactive docs are at `/docs`.
 
+## Testing
+
+The API is tested manually with [Bruno](https://www.usebruno.com/). The collection is in the `bruno/` folder:
+
+1. Start the API (see above).
+2. Open the `bruno/` folder as a collection in Bruno and select the `local` environment (`baseUrl` = `http://127.0.0.1:8000`).
+3. Run the requests. 
+4. The collection contains no credentials: Twitch keys stay in the server's `.env`.
+
 ## Endpoints
 
 | Method | Path                                         | Description                     |
@@ -91,6 +100,7 @@ app/
 ├── service/             # Twitch API client (token + requests)
 └── schemas/             # Pydantic models (Input validation)
 sql/                     # database scripts
+bruno/                   # Bruno collection with the API requests
 ```
 
 ## Documentation

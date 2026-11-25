@@ -1,0 +1,23 @@
+info:
+  name: DeletePreference
+  type: http
+  seq: 1
+
+http:
+  method: DELETE
+  url: http://127.0.0.1:8000/users/:user_id/preferences/:id
+  params:
+    - name: id
+      value: "8"
+      type: path
+    - name: user_id
+      value: "12"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
