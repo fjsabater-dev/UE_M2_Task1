@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import health, root
+from app.routers import health, root, users
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -12,6 +12,7 @@ app = FastAPI(
     description="REST API for managing Twitch user streamers and categories preferences.",
   )
 
-# Include the default router and the health router in the main app
+# Include the default router, the health router and the users router in the main app
 app.include_router(root.router)
 app.include_router(health.router)
+app.include_router(users.router)
