@@ -52,14 +52,17 @@ The API runs at `http://127.0.0.1:8000`. Interactive docs are at `/docs`.
 
 ## Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/health` | API status |
-| POST | `/users` | Create a user |
-| GET | `/users` | List users |
-| GET | `/users/{user_id}` | Get a user by ID |
-| PUT | `/users/{user_id}` | Update a user by ID |
-| DELETE | `/users/{user_id}` | Delete a user by ID |
+| Method | Path                                         | Description                     |
+|--------|----------------------------------------------|---------------------------------|
+| GET    | `/health`                                    | Health check                    |
+| POST   | `/users`                                     | Create a user                   |
+| GET    | `/users`                                     | List users                      |
+| GET    | `/users/{user_id}`                           | Get a user                      |
+| PUT    | `/users/{user_id}`                           | Update a user (partial fields)  |
+| DELETE | `/users/{user_id}`                           | Delete a user (and preferences) |
+| POST   | `/users/{user_id}/preferences`               | Add a streamer/game preference  |
+| GET    | `/users/{user_id}/preferences`               | List a user's preferences       |
+| DELETE | `/users/{user_id}/preferences/{preference_id}` | Delete a preference           |
 
 ## Project structure
 
@@ -68,7 +71,7 @@ app/
 ├── main.py              # app creation and router registration
 ├── configuration/       # database connection
 ├── routers/             # endpoints
-└── schemas/             # input validation
+└── schemas/             # Pydantic models (Input validation)
 sql/                     # database scripts
 ```
 
