@@ -1,5 +1,10 @@
 from fastapi import FastAPI
 from app.routers import health, root
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Create the FastAPI application and include the routers
 app = FastAPI(
     # Swagger information
