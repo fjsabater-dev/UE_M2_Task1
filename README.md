@@ -9,7 +9,7 @@ Favorite streamers and games will be enriched with data from the Twitch API.
 
 - Python and FastAPI
 - MySQL
-- Twitch API (planned)
+- Twitch API
 
 ## Getting started
 
@@ -39,6 +39,10 @@ Copy `.env.template` to `.env` and fill in your values. `.env` is ignored for gi
 | `DB_USER` | MySQL user |
 | `DB_PASSWORD` | Password of that user |
 | `DB_NAME` | Database name (`twitch_api`) |
+| `TWITCH_CLIENT_ID`     | Client ID of your Twitch app (dev.twitch.tv/console) |
+| `TWITCH_CLIENT_SECRET` | Client Secret of your Twitch app |
+
+Without the Twitch variables the API still runs, but the Twitch endpoints answer `503`.
 
 ### 4. Run the API
 
@@ -63,6 +67,19 @@ The API runs at `http://127.0.0.1:8000`. Interactive docs are at `/docs`.
 | POST   | `/users/{user_id}/preferences`               | Add a streamer/game preference  |
 | GET    | `/users/{user_id}/preferences`               | List a user's preferences       |
 | DELETE | `/users/{user_id}/preferences/{preference_id}` | Delete a preference           |
+| GET    | `/users/{user_id}/streamers`                 | Live status of the user's favorite streamers |
+| GET    | `/twitch/streamers/{login}`                  | Streamer info and live status   |
+| GET    | `/twitch/games/{name}`                       | Game info                       |
+
+### Error codes
+
+| Code | Meaning |
+|------|---------|
+| 404  | User, preference, streamer or game not found |
+| 422  | Invalid request body or parameters |
+| 502  | Twitch failed or rejected our credentials |
+| 503  | Twitch credentials not configured |
+| 504  | Twitch did not answer in time |
 
 ## Project structure
 
@@ -71,6 +88,7 @@ app/
 ├── main.py              # app creation and router registration
 ├── configuration/       # database connection
 ├── routers/             # endpoints
+├── service/             # Twitch API client (token + requests)
 └── schemas/             # Pydantic models (Input validation)
 sql/                     # database scripts
 ```
